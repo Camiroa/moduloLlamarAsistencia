@@ -1,4 +1,4 @@
-package com.fiuni.moduloLlamarAsistencia.dto.portfolio.materias;
+package com.fiuni.moduloLlamarAsistencia.dto.materias;
 
 
 import com.fiuni.moduloLlamarAsistencia.dto.base.BaseResult;

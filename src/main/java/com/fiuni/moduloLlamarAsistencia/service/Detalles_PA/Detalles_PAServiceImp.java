@@ -2,16 +2,17 @@ package com.fiuni.moduloLlamarAsistencia.service.Detalles_PA;
 
 
 import com.fiuni.moduloLlamarAsistencia.dao.Detalles_PA.IDetalles_PADao;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.planilla.Detalles_PADTO;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.planilla.Detalles_PAResult;
+import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PADTO;
+import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PAResult;
 import com.library.domainLibrary.domain.detallePA.DetallePlanillaAsistenciaDomain;
 import com.fiuni.moduloLlamarAsistencia.service.base.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Detalles_PAServiceImp extends BaseServiceImpl<Detalles_PADTO, DetallePlanillaAsistenciaDomain, Detalles_PAResult> {
 
     @Autowired
@@ -19,13 +20,13 @@ public class Detalles_PAServiceImp extends BaseServiceImpl<Detalles_PADTO, Detal
     @Override
     protected Detalles_PADTO convertDomainToDto(DetallePlanillaAsistenciaDomain domain) {
         Detalles_PADTO dto = new Detalles_PADTO();
-
         dto.setId(domain.getId());
         dto.setEstado(domain.getEstado());
         dto.setAsistencia(domain.getAsistencia());
+        dto.setJustificativo(domain.getJustificativo());
         dto.setIdListaAlumno(domain.getIdListaAlumno());
         dto.setIdPlanillaAsistencia(domain.getIdPlanillaAsistencia());
-        dto.setJustificativo(domain.getJustificativo());
+
         return dto;
     }
 
@@ -59,12 +60,5 @@ public class Detalles_PAServiceImp extends BaseServiceImpl<Detalles_PADTO, Detal
         Detalles_PAResult response= new Detalles_PAResult(detalles_paDao.findAll(pageable).map(p->convertDomainToDto(p)).toList());
         return response != null ? new ResponseEntity<>(response, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-   // @Override
-    //@Transactional
- //   public ResponseEntity<Integer> fullDelete(Integer id) {
-  //      Integer response = detalles_paDao.deleteAbsolut(id);
- //       return new ResponseEntity<Integer>(response, response > 0 ? HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);//ResponseEntity.etapaDao.deleteAbsolut(id);
- //   }
-
 }
 

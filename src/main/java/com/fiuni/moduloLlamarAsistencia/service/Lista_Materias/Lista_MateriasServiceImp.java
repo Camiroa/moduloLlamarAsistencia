@@ -1,15 +1,16 @@
 package com.fiuni.moduloLlamarAsistencia.service.Lista_Materias;
 import com.fiuni.moduloLlamarAsistencia.service.base.BaseServiceImpl;
 import com.fiuni.moduloLlamarAsistencia.dao.Lista_Materias.ILista_MateriasDao;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.materias.Lista_MateriasDTO;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.materias.Lista_MateriasResult;
+import com.fiuni.moduloLlamarAsistencia.dto.materias.Lista_MateriasDTO;
+import com.fiuni.moduloLlamarAsistencia.dto.materias.Lista_MateriasResult;
 import com.library.domainLibrary.domain.listaMateria.ListaMateriaDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+@Service
 public class Lista_MateriasServiceImp extends BaseServiceImpl<Lista_MateriasDTO, ListaMateriaDomain, Lista_MateriasResult> implements ILista_MateriasService {
     @Autowired
     private ILista_MateriasDao listaMateriaDao;

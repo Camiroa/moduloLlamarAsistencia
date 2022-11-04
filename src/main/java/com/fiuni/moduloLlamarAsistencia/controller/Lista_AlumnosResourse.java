@@ -1,7 +1,7 @@
 package com.fiuni.moduloLlamarAsistencia.controller;
 
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.personas.Lista_AlumnosDTO;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.personas.Lista_AlumnosResult;
+import com.fiuni.moduloLlamarAsistencia.dto.alumnos.Lista_AlumnosDTO;
+import com.fiuni.moduloLlamarAsistencia.dto.alumnos.Lista_AlumnosResult;
 import com.fiuni.moduloLlamarAsistencia.service.Lista_Alumnos.ILista_AlumnosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -10,9 +10,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/evaluaciones")
+@RequestMapping("/listas/alumnos")
 public class Lista_AlumnosResourse {
-    @Autowired(required = true)
+    @Autowired
     private ILista_AlumnosService lista_alumnosService;
 
     @GetMapping("/{id}")
@@ -21,17 +21,17 @@ public class Lista_AlumnosResourse {
     }
 
     @GetMapping(path = "/page/{page_num}")
-    public ResponseEntity<Lista_AlumnosResult> getClients(@PathVariable(value = "page_num")Integer pageNum) {
+    public ResponseEntity<Lista_AlumnosResult> getlista(@PathVariable(value = "page_num")Integer pageNum) {
         return lista_alumnosService.getAll(PageRequest.of(pageNum, 10));
     }
 
     @PostMapping
-    public ResponseEntity<Lista_AlumnosDTO> save(@Validated @RequestBody Lista_AlumnosDTO evaluacion) {
-        return lista_alumnosService.save(evaluacion);
+    public ResponseEntity<Lista_AlumnosDTO> save(@Validated @RequestBody Lista_AlumnosDTO listaA) {
+        return lista_alumnosService.save(listaA);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Lista_AlumnosDTO> putEtapa(@PathVariable(value = "id") Integer id, @RequestBody Lista_AlumnosDTO dto) {
+    public ResponseEntity<Lista_AlumnosDTO> putLista(@PathVariable(value = "id") Integer id, @RequestBody Lista_AlumnosDTO dto) {
         return lista_alumnosService.update(id, dto);
     }
 

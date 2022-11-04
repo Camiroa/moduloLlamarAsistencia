@@ -1,4 +1,4 @@
-package com.fiuni.moduloLlamarAsistencia.dto.portfolio.personas;
+package com.fiuni.moduloLlamarAsistencia.dto.alumnos;
 
 import com.fiuni.moduloLlamarAsistencia.dto.base.BaseResult;
 

@@ -1,19 +1,18 @@
 package com.fiuni.moduloLlamarAsistencia.service.Lista_Alumnos;
 
 import com.fiuni.moduloLlamarAsistencia.dao.Lista_Alumnos.ILista_AlumnosDao;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.materias.Lista_MateriasDTO;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.materias.Lista_MateriasResult;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.personas.Lista_AlumnosResult;
+import com.fiuni.moduloLlamarAsistencia.dto.alumnos.Lista_AlumnosResult;
 import com.library.domainLibrary.domain.listaAlumno.ListaAlumnoDomain;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.personas.Lista_AlumnosDTO;
+import com.fiuni.moduloLlamarAsistencia.dto.alumnos.Lista_AlumnosDTO;
 import com.fiuni.moduloLlamarAsistencia.service.base.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
+@Service
 public class Lista_AlumnosServiceImp extends BaseServiceImpl<Lista_AlumnosDTO, ListaAlumnoDomain, Lista_AlumnosResult> implements ILista_AlumnosService {
 
     @Autowired

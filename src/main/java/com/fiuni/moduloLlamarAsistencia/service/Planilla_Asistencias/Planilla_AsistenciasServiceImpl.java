@@ -1,16 +1,17 @@
 package com.fiuni.moduloLlamarAsistencia.service.Planilla_Asistencias;
 
 import com.fiuni.moduloLlamarAsistencia.dao.Planilla_Asistencias.IPlanilla_AsistenciasDao;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.planilla.Planilla_AsistenciasDTO;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.planilla.Planilla_AsistenciasResult;
+import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasDTO;
+import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasResult;
 import com.fiuni.moduloLlamarAsistencia.service.base.BaseServiceImpl;
 import com.library.domainLibrary.domain.planillaAsistencia.PlanillaAsistenciaDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_AsistenciasDTO, PlanillaAsistenciaDomain, Planilla_AsistenciasResult> implements IPlanilla_AsistenciasService{
 
     @Autowired
@@ -47,6 +48,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
         dto.setId(domain.getId());
         dto.setEstado(domain.getEstado());
         dto.setIdListaMateria(domain.getIdListaMateria());
+        dto.setListaDetalles_PA(domain.getDetallesPlanillaAsistencias());
         return dto;
     }
 
@@ -56,6 +58,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
         domain.setId(dto.getId());
         domain.setEstado(dto.getEstado());
         domain.setIdListaMateria(dto.getIdListaMateria());
+        domain.setDetallesPlanillaAsistencias(dto.getListaDetalles_PA());
         return domain;
     }
 

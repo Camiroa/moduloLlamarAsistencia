@@ -1,22 +1,23 @@
-package com.fiuni.moduloLlamarAsistencia.dto.portfolio.personas;
-
+package com.fiuni.moduloLlamarAsistencia.dto.materias;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
 import com.fiuni.moduloLlamarAsistencia.dto.base.BaseDTO;
 
-import java.util.List;
 
-@XmlRootElement(name = "lista_alumnos")
-public class Lista_AlumnosDTO extends BaseDTO {
+@XmlRootElement(name = "LISTA_MATERIAS")
+public class Lista_MateriasDTO extends BaseDTO {
 
     private Integer idClase;
 
-    private Integer idAlumno;
+    private Integer idMateria;
+
+    private Integer idProfesor;
 
     private Boolean estado;
+
+
 
     @XmlElement
     public Integer getIdClase() {
@@ -28,12 +29,21 @@ public class Lista_AlumnosDTO extends BaseDTO {
     }
 
     @XmlElement
-    public Integer getIdAlumno() {
-        return idAlumno;
+    public Integer getIdMateria() {
+        return idMateria;
     }
 
-    public void setIdAlumno(Integer idAlumno) {
-        this.idAlumno = idAlumno;
+    public void setIdMateria(Integer idMateria) {
+        this.idMateria = idMateria;
+    }
+
+    @XmlElement
+    public Integer getIdProfesor() {
+        return idProfesor;
+    }
+
+    public void setIdProfesor(Integer idProfesor) {
+        this.idProfesor = idProfesor;
     }
 
     @XmlElement
@@ -44,4 +54,6 @@ public class Lista_AlumnosDTO extends BaseDTO {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
+
+
 }

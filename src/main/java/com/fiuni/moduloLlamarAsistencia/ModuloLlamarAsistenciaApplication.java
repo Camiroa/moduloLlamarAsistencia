@@ -3,6 +3,7 @@ package com.fiuni.moduloLlamarAsistencia;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 
 @EntityScan({"com.library.domainLibrary.domain.base",
 		"com.library.domainLibrary.domain.ciclo",
@@ -27,6 +28,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 		"com.library.domainLibrary.domain.rol",
 		"com.library.domainLibrary.domain.planillaNota"})
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.fiuni.moduloLlamarAsistencia.service.Detalles_PA"})
 public class ModuloLlamarAsistenciaApplication {
 
 	public static void main(String[] args) {

@@ -1,8 +1,9 @@
 package com.fiuni.moduloLlamarAsistencia.controller;
 
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.planilla.Detalles_PADTO;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.planilla.Detalles_PAResult;
+import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PADTO;
+import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PAResult;
 import com.fiuni.moduloLlamarAsistencia.service.Detalles_PA.IDetalles_PAService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping ("/asistencia/detalle")
 public class Detalles_PAResourse {
-    @Autowired
+    @Autowired(required = true)
     private IDetalles_PAService detalles_paService;
 
     @GetMapping("/{id}")
@@ -41,8 +42,7 @@ public class Detalles_PAResourse {
         return detalles_paService.delete(id);
     }
 
-    //@DeleteMapping("/fullDelete/{id}")
-    //public ResponseEntity<Integer> fullDeleteDetalle(@PathVariable(value = "id") Integer id){
-    //   return detalles_paService.fullDelete(id);
-//    }
 }
+
+
+

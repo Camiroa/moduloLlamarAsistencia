@@ -1,4 +1,4 @@
-package com.fiuni.moduloLlamarAsistencia.dto.portfolio.planilla;
+package com.fiuni.moduloLlamarAsistencia.dto.detalles;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

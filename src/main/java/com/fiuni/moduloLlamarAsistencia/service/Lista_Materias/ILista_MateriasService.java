@@ -1,9 +1,10 @@
 package com.fiuni.moduloLlamarAsistencia.service.Lista_Materias;
 
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.materias.Lista_MateriasDTO;
-import com.fiuni.moduloLlamarAsistencia.dto.portfolio.materias.Lista_MateriasResult;
+import com.fiuni.moduloLlamarAsistencia.dto.materias.Lista_MateriasDTO;
+import com.fiuni.moduloLlamarAsistencia.dto.materias.Lista_MateriasResult;
 import com.fiuni.moduloLlamarAsistencia.service.base.IBaseService;
 import org.springframework.http.ResponseEntity;
+
 
 public interface ILista_MateriasService extends IBaseService<Lista_MateriasDTO, Lista_MateriasResult> {
 
