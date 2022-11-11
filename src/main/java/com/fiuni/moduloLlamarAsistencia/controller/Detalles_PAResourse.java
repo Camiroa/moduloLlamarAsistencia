@@ -17,14 +17,15 @@ public class Detalles_PAResourse {
     private IDetalles_PAService detalles_paService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Detalles_PADTO> getById(@PathVariable(value="id") Integer detallea){
-        return detalles_paService.getById(detallea);
+    public ResponseEntity<Detalles_PADTO> getById(@PathVariable(value="id") Integer detalles){
+        return detalles_paService.getById(detalles);
     }
 
     @GetMapping(path = "/page/{page_num}")
     public ResponseEntity<Detalles_PAResult> getPages(@PathVariable(value = "page_num")Integer pageNum) {
         return detalles_paService.getAll(PageRequest.of(pageNum, 10));
     }
+
 
 
     @PostMapping

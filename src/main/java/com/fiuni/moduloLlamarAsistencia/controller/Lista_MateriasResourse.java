@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/lista/materias")
+@RequestMapping("/listas/materias")
 public class Lista_MateriasResourse {
 
     @Autowired

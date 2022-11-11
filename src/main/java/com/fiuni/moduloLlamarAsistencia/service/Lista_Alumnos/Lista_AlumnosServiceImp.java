@@ -75,9 +75,10 @@ public class Lista_AlumnosServiceImp extends BaseServiceImpl<Lista_AlumnosDTO, L
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Lista_AlumnosResult> getAll(Pageable pageable) {
-        Lista_AlumnosResult response = new Lista_AlumnosResult(lista_alumnosDao.findAll(pageable).map(p -> convertDomainToDto(p)).toList());
-
+        Lista_AlumnosResult response = new Lista_AlumnosResult(lista_alumnosDao.findAll(pageable)
+                .map(p -> {return convertDomainToDto(p);}).toList());
         return response != null ? new ResponseEntity<Lista_AlumnosResult>(response, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

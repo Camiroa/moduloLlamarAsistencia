@@ -3,6 +3,7 @@ package com.fiuni.moduloLlamarAsistencia.service.Planilla_Asistencias;
 import com.fiuni.moduloLlamarAsistencia.dao.Planilla_Asistencias.IPlanilla_AsistenciasDao;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasDTO;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasResult;
+import com.fiuni.moduloLlamarAsistencia.service.Detalles_PA.IDetalles_PAService;
 import com.fiuni.moduloLlamarAsistencia.service.base.BaseServiceImpl;
 import com.library.domainLibrary.domain.planillaAsistencia.PlanillaAsistenciaDomain;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +12,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_AsistenciasDTO, PlanillaAsistenciaDomain, Planilla_AsistenciasResult> implements IPlanilla_AsistenciasService{
 
     @Autowired
     private IPlanilla_AsistenciasDao planilla_asistenciasDao;
+    @Autowired
+    private IDetalles_PAService detalles_paService;
     @Override
     public ResponseEntity<Planilla_AsistenciasDTO> update(Integer id, Planilla_AsistenciasDTO dto) {
         if(dto.getEstado()!=null && dto.getIdListaMateria()!= null){
             Planilla_AsistenciasDTO response = planilla_asistenciasDao.findById(id).map(domain ->{
                 domain.setEstado(dto.getEstado());
                 domain.setIdListaMateria(dto.getIdListaMateria());
-                domain.setId(domain.getId());
+                domain.setFecha(dto.getFecha());
+                dto.setId(domain.getId());
                 return save(dto);
             }).orElse(null).getBody();
             return response != null?new ResponseEntity<>(HttpStatus.NO_CONTENT): new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -48,7 +54,8 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
         dto.setId(domain.getId());
         dto.setEstado(domain.getEstado());
         dto.setIdListaMateria(domain.getIdListaMateria());
-        dto.setListaDetalles_PA(domain.getDetallesPlanillaAsistencias());
+        dto.setFecha(domain.getFecha());
+        dto.setListaDetalles_PA(detalles_paService.convertListToDTO(domain.getDetallesPlanillaAsistencias()));
         return dto;
     }
 
@@ -58,7 +65,8 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
         domain.setId(dto.getId());
         domain.setEstado(dto.getEstado());
         domain.setIdListaMateria(dto.getIdListaMateria());
-        domain.setDetallesPlanillaAsistencias(dto.getListaDetalles_PA());
+        domain.setFecha(dto.getFecha());
+        domain.setDetallesPlanillaAsistencias(detalles_paService.convertListToDomain(dto.getListaDetalles_PA()));
         return domain;
     }
 
@@ -75,9 +83,14 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Planilla_AsistenciasResult> getAll(Pageable pageable) {
-        Planilla_AsistenciasResult response = new Planilla_AsistenciasResult(planilla_asistenciasDao.findAll(pageable).map(p -> convertDomainToDto(p)).toList());
+        Planilla_AsistenciasResult response = new Planilla_AsistenciasResult(planilla_asistenciasDao.findAll(pageable)
+                .map(p -> {return convertDomainToDto(p);}).toList());
 
         return response != null ? new ResponseEntity<>(response, HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
     }
+
 }

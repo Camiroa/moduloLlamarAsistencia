@@ -50,13 +50,14 @@ public class Lista_MateriasServiceImp extends BaseServiceImpl<Lista_MateriasDTO,
     public ResponseEntity<Lista_MateriasDTO> getById(Integer id) {
         Lista_MateriasDTO response = convertDomainToDto(listaMateriaDao.findById(id).orElse(null));
 
-        return response != null ? new ResponseEntity<Lista_MateriasDTO>(response, HttpStatus.OK)
+        return response != null ? new ResponseEntity<>(response, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @Override
+    @javax.transaction.Transactional
     public ResponseEntity<Lista_MateriasResult> getAll(Pageable pageable) {
-        Lista_MateriasResult response = new Lista_MateriasResult(listaMateriaDao.findAll(pageable).map(p -> convertDomainToDto(p)).toList());
+        Lista_MateriasResult response = new Lista_MateriasResult(listaMateriaDao.findAll(pageable).map(p -> {return convertDomainToDto(p);}).toList());
 
         return response != null ? new ResponseEntity<Lista_MateriasResult>(response, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
