@@ -28,7 +28,6 @@ import org.springframework.context.annotation.ComponentScan;
 		"com.library.domainLibrary.domain.rol",
 		"com.library.domainLibrary.domain.planillaNota"})
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.fiuni.moduloLlamarAsistencia.service.Detalles_PA"})
 public class ModuloLlamarAsistenciaApplication {
 
 	public static void main(String[] args) {
