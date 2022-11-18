@@ -1,5 +1,6 @@
 package com.fiuni.moduloLlamarAsistencia.controller;
 
+import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_Asistencia_Materia_DTO;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasDTO;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasResult;
 import com.fiuni.moduloLlamarAsistencia.service.Planilla_Asistencias.IPlanilla_AsistenciasService;
@@ -14,12 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class Planilla_AsistenciasResourse {
     @Autowired
     private IPlanilla_AsistenciasService planilla_AsistenciasService;
-
+    @CrossOrigin(origins="*")
     @GetMapping("/{id}")
+    public ResponseEntity<Planilla_Asistencia_Materia_DTO> getByListaMateriasId(@PathVariable(value="id") Integer idListaMateria){
+        return planilla_AsistenciasService.getByIdListaMateria(idListaMateria);
+    }
+
+    @GetMapping("/simple/{id}")
     public ResponseEntity<Planilla_AsistenciasDTO> getById(@PathVariable(value="id") Integer planillaId){
         return planilla_AsistenciasService.getById(planillaId);
     }
-
     @GetMapping(path = "/page/{page_num}")
     public ResponseEntity<Planilla_AsistenciasResult> getPages(@PathVariable(value = "page_num")Integer pageNum) {
         return planilla_AsistenciasService.getAll(PageRequest.of(pageNum, 10));

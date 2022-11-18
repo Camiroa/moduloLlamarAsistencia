@@ -15,6 +15,7 @@ import java.util.List;
 @XmlRootElement(name = "PLANILLA_ASISTENCIAS")
 public class Planilla_AsistenciasDTO extends BaseDTO {
 
+    private static final long serialVersionUID = 1L;
     private Integer idListaMateria;
 
     private Boolean estado;

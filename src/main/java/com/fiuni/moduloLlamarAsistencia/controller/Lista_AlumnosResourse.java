@@ -2,6 +2,7 @@ package com.fiuni.moduloLlamarAsistencia.controller;
 
 import com.fiuni.moduloLlamarAsistencia.dto.alumnos.Lista_AlumnosDTO;
 import com.fiuni.moduloLlamarAsistencia.dto.alumnos.Lista_AlumnosResult;
+import com.fiuni.moduloLlamarAsistencia.dto.personas.PersonaResult;
 import com.fiuni.moduloLlamarAsistencia.service.Lista_Alumnos.ILista_AlumnosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,11 @@ public class Lista_AlumnosResourse {
     @GetMapping("/{id}")
     public ResponseEntity<Lista_AlumnosDTO> getById(@PathVariable(value = "id") Integer listaId) {
         return lista_alumnosService.getById(listaId);
+    }
+    @CrossOrigin(origins="*")
+    @GetMapping("/clase/{idClase}")
+    public ResponseEntity<PersonaResult> getByIdClase(@PathVariable(value = "idClase") Integer listaId) {
+        return lista_alumnosService.getListAlumnos(listaId);
     }
 
     @GetMapping(path = "/page/{page_num}")

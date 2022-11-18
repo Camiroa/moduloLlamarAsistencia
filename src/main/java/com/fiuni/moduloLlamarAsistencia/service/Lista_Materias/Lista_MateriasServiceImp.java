@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class Lista_MateriasServiceImp extends BaseServiceImpl<Lista_MateriasDTO, ListaMateriaDomain, Lista_MateriasResult> implements ILista_MateriasService {
     @Autowired
@@ -86,4 +87,5 @@ public class Lista_MateriasServiceImp extends BaseServiceImpl<Lista_MateriasDTO,
         Boolean response = listaMateriaDao.delete(id);
         return new ResponseEntity<Boolean>(response != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
+
 }

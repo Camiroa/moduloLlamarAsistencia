@@ -3,7 +3,9 @@ package com.fiuni.moduloLlamarAsistencia;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ImportResource;
 
 @EntityScan({"com.library.domainLibrary.domain.base",
 		"com.library.domainLibrary.domain.ciclo",
@@ -27,6 +29,8 @@ import org.springframework.context.annotation.ComponentScan;
 		"com.library.domainLibrary.domain.planillaAsistencia",
 		"com.library.domainLibrary.domain.rol",
 		"com.library.domainLibrary.domain.planillaNota"})
+@ImportResource("classpath:memcached.xml")
+//men@EnableCaching
 @SpringBootApplication
 public class ModuloLlamarAsistenciaApplication {
 

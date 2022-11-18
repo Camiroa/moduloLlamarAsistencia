@@ -1,13 +1,15 @@
 package com.fiuni.moduloLlamarAsistencia.dto.materias;
 
+import com.fiuni.moduloLlamarAsistencia.dto.personas.PersonaDTO;
+import com.fiuni.moduloLlamarAsistencia.dto.base.BaseDTO;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.fiuni.moduloLlamarAsistencia.dto.base.BaseDTO;
+import java.util.List;
 
 
 @XmlRootElement(name = "LISTA_MATERIAS")
-public class Lista_MateriasDTO extends BaseDTO {
+public class Lista_Alumnos_MateriasDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
     private Integer idClase;
@@ -17,6 +19,8 @@ public class Lista_MateriasDTO extends BaseDTO {
     private Integer idProfesor;
 
     private Boolean estado;
+
+    private List<PersonaDTO> listaPersonasPorClase;
 
 
 
@@ -56,5 +60,12 @@ public class Lista_MateriasDTO extends BaseDTO {
         this.estado = estado;
     }
 
+    @XmlElement
+    public List<PersonaDTO> getListaPersonas() {
+        return listaPersonasPorClase;
+    }
 
+    public void setListaPersonas(List<PersonaDTO> listaPersonas) {
+        this.listaPersonasPorClase = listaPersonas;
+    }
 }

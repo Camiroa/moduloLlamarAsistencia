@@ -10,6 +10,7 @@ import com.fiuni.moduloLlamarAsistencia.dto.base.BaseDTO;
 @XmlRootElement(name = "LISTA_ALUMNOS")
 public class Lista_AlumnosDTO extends BaseDTO {
 
+    private static final long serialVersionUID = 1L;
     private Integer idClase;
 
     private Integer idAlumno;

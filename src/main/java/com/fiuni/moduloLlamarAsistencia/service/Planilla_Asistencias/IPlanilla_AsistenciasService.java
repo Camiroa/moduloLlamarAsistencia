@@ -1,5 +1,6 @@
 package com.fiuni.moduloLlamarAsistencia.service.Planilla_Asistencias;
 
+import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_Asistencia_Materia_DTO;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasDTO;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasResult;
 import com.fiuni.moduloLlamarAsistencia.service.base.IBaseService;
@@ -11,5 +12,6 @@ public interface IPlanilla_AsistenciasService extends IBaseService<Planilla_Asis
     public abstract ResponseEntity<Planilla_AsistenciasDTO> update(Integer id, Planilla_AsistenciasDTO dto);
 
     public abstract ResponseEntity<Boolean> delete(Integer id);
+    public ResponseEntity<Planilla_Asistencia_Materia_DTO> getByIdListaMateria(Integer id);
 
 }

@@ -1,34 +1,60 @@
-package com.fiuni.moduloLlamarAsistencia.service.Detalles_PA;
+package com.fiuni.moduloLlamarAsistencia.service.clase;
 
 
 import com.fiuni.moduloLlamarAsistencia.dao.Detalles_PA.IDetalles_PADao;
-import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PADTO;
-import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PAResult;
-import com.fiuni.moduloLlamarAsistencia.utils.Settings;
-import com.library.domainLibrary.domain.detallePA.DetallePlanillaAsistenciaDomain;
+import com.fiuni.moduloLlamarAsistencia.dto.clase.ClaseDTO;
+import com.fiuni.moduloLlamarAsistencia.dto.clase.ClaseResult;
 import com.fiuni.moduloLlamarAsistencia.service.base.BaseServiceImpl;
+import com.library.domainLibrary.domain.clase.ClaseDomain;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 @Service
-public class Detalles_PAServiceImp extends BaseServiceImpl<Detalles_PADTO, DetallePlanillaAsistenciaDomain, Detalles_PAResult>
-implements IDetalles_PAService{
+public class ICLaseServiceImp extends BaseServiceImpl<ClaseDTO, ClaseDomain, ClaseResult>
+implements IClaseService {
 
     @Autowired
     private IDetalles_PADao detalles_paDao;
+
+    @Override
+    protected ClaseDTO convertDomainToDto(ClaseDomain domain) {
+        return null;
+    }
+
+    @Override
+    protected ClaseDomain convertDtoToDomain(ClaseDTO dto) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ClaseDTO> save(ClaseDTO dto) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ClaseDTO> getById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<ClaseResult> getAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public ClaseDTO update(Integer id, ClaseDTO dto) {
+        return null;
+    }
+
+    @Override
+    public Boolean delete(Integer id) {
+        return null;
+    }
     //@Autowired
     //private CacheManager cacheManager;
-    @Override
+    /*@Override
     protected Detalles_PADTO convertDomainToDto(DetallePlanillaAsistenciaDomain domain) {
         Detalles_PADTO dto = new Detalles_PADTO();
         dto.setId(domain.getId());
@@ -155,7 +181,8 @@ implements IDetalles_PAService{
             newList.add(convertDtoToDomain(dPADTO));
         }
         return newList;
-    }
+    }*/
+
 
 }
 

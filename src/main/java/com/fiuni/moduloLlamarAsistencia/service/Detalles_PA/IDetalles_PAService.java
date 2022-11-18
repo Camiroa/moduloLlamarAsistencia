@@ -20,4 +20,7 @@ public interface IDetalles_PAService extends IBaseService<Detalles_PADTO, Detall
     public List<Detalles_PADTO> convertListToDTO(List<DetallePlanillaAsistenciaDomain> listaDetallesPADomain);
 
     public List<DetallePlanillaAsistenciaDomain> convertListToDomain(List<Detalles_PADTO> listaDetallesPADTO);
+
+
+    ResponseEntity<Detalles_PADTO> getByIdP(Integer detalles);
 }
