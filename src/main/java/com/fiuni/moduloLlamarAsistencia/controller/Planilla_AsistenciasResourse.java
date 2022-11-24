@@ -6,6 +6,7 @@ import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasResult;
 import com.fiuni.moduloLlamarAsistencia.service.Planilla_Asistencias.IPlanilla_AsistenciasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,17 +31,30 @@ public class Planilla_AsistenciasResourse {
         return planilla_AsistenciasService.getAll(PageRequest.of(pageNum, 10));
     }
 
-
+    @CrossOrigin(origins = "*")
     @PostMapping
     public ResponseEntity<Planilla_AsistenciasDTO> save(@Validated @RequestBody Planilla_AsistenciasDTO planilla) {
         return planilla_AsistenciasService.save(planilla);
     }
 
+    @CrossOrigin(origins = "*")
+    @PutMapping("/actualizar")
+    public ResponseEntity<Boolean> putDetallesActualizados(@RequestBody Planilla_AsistenciasDTO dto) {
+        try {
+            return planilla_AsistenciasService.updateDetalles(dto)
+                    ? new ResponseEntity<Boolean>(HttpStatus.NO_CONTENT)
+                    : new ResponseEntity<>(HttpStatus.CONFLICT);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+    @CrossOrigin(origins = "*")
     @PutMapping("/{id}")
     public ResponseEntity<Planilla_AsistenciasDTO> putPlanilla(@PathVariable(value = "id") Integer id, @RequestBody Planilla_AsistenciasDTO dto) {
         return planilla_AsistenciasService.update(id, dto);
     }
-
+    @CrossOrigin(origins="*")
     @DeleteMapping("eliminar/{id}")
     public ResponseEntity<Boolean> deletePlanilla(@PathVariable(value = "id") Integer id) {
         return planilla_AsistenciasService.delete(id);

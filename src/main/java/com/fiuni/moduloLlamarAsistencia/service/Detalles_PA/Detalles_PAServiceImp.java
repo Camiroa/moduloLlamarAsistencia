@@ -4,12 +4,9 @@ package com.fiuni.moduloLlamarAsistencia.service.Detalles_PA;
 import com.fiuni.moduloLlamarAsistencia.dao.Detalles_PA.IDetalles_PADao;
 import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PADTO;
 import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PAResult;
-import com.fiuni.moduloLlamarAsistencia.utils.Settings;
 import com.library.domainLibrary.domain.detallePA.DetallePlanillaAsistenciaDomain;
 import com.fiuni.moduloLlamarAsistencia.service.base.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +16,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
 public class Detalles_PAServiceImp extends BaseServiceImpl<Detalles_PADTO, DetallePlanillaAsistenciaDomain, Detalles_PAResult>
@@ -44,8 +43,7 @@ implements IDetalles_PAService{
     @Override
     protected DetallePlanillaAsistenciaDomain convertDtoToDomain(Detalles_PADTO dto) {
         DetallePlanillaAsistenciaDomain domain = new DetallePlanillaAsistenciaDomain ();
-
-        domain.setId(dto.getId());
+        //domain.setId(dto.getId());
         domain.setEstado(dto.getEstado());
         domain.setAsistencia(dto.getAsistencia());
         domain.setIdListaAlumno(dto.getIdListaAlumno());
@@ -57,6 +55,8 @@ implements IDetalles_PAService{
     @Override
     @Transactional
     public ResponseEntity<Detalles_PADTO> save(Detalles_PADTO dto) {
+        System.out.println(dto.getId()+"DENTRO DEL SAVE");
+        System.out.println(dto.getAsistencia());
         dto.setEstado(dto.getEstado()== null ? true:dto.getEstado());
         DetallePlanillaAsistenciaDomain domain= detalles_paDao.save(convertDtoToDomain(dto));
         Detalles_PADTO response= convertDomainToDto(domain);
@@ -107,9 +107,38 @@ implements IDetalles_PAService{
 
     }
 
+    //    @Override
+//    @Transactional
+//    public Boolean updatePuntajeAndEstado(PlanillaNotaUpdNotasAndEstadoDTO dto) {
+//        try{
+//            dto.getDetalles().forEach(d -> {
+//                //System.out.println("id: " + d.getId() + " puntaje: " + d.getPuntaje() + " estado: " + d.getEstado());
+//                detallesDao.updatePuntajeAndEstado(d.getPuntaje(), d.getEstado(), d.getId());
+//            });
+//            return true;
+//        }catch(Exception e) {
+//            System.out.println(e.getMessage());
+//            return false;
+//        }
+//    }
+   @Transactional
+    @Override
+    public Boolean updateDetalles(Detalles_PADTO dto) {
+        try{
+            if (dto.getEstado() != null && dto.getJustificativo() != null && !isEmpty(dto. getAsistencia()) && dto.getIdListaAlumno() != null
+                    && dto.getIdPlanillaAsistencia() != null) {
+                detalles_paDao.updateDetalle(dto.getAsistencia(), dto.getEstado(), dto.getJustificativo(), dto.getId());
+
+            }
+            return true;
+        }catch(Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
     @Override
     public ResponseEntity<Detalles_PADTO> update(Integer id, Detalles_PADTO dto) {
-        if (dto.getEstado() != null && dto.getJustificativo() != null && dto.getAsistencia() != null && dto.getIdListaAlumno() != null
+        if (dto.getEstado() != null && dto.getJustificativo() != null && !isEmpty(dto. getAsistencia()) && dto.getIdListaAlumno() != null
         && dto.getIdPlanillaAsistencia() != null) {
             Detalles_PADTO detalleActualizado = detalles_paDao.findById(id).map(detalleDomain -> {
                 detalleDomain.setAsistencia(dto.getAsistencia());
@@ -152,10 +181,23 @@ implements IDetalles_PAService{
     public List<DetallePlanillaAsistenciaDomain> convertListToDomain(List<Detalles_PADTO> listaDetallesPADTO){
         List<DetallePlanillaAsistenciaDomain> newList= new ArrayList<>();
         for (Detalles_PADTO dPADTO: listaDetallesPADTO) {
+            System.out.println("Convierte"+dPADTO.getAsistencia());
             newList.add(convertDtoToDomain(dPADTO));
         }
         return newList;
     }
-
+//    @Override
+//    @Transactional
+//    public ResponseEntity<Detalles_PADTO> saveList(Detalles_PADTO dto) {
+//
+//        dto.setEstado(dto.getEstado()== null ? true:dto.getEstado());
+//        DetallePlanillaAsistenciaDomain domain= detalles_paDao.save(convertDtoToDomain(dto));
+//        Detalles_PADTO response= convertDomainToDto(domain);
+//        if(dto.getId() == null){
+//            //cacheManager.getCache(Settings.CACHE_NAME).put("API_ETAPA_" + response.getId(), domain);
+//        }
+//        return response!=null? new ResponseEntity<>(HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.CONFLICT);
+//
+//    }
 }
 

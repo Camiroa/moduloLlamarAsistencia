@@ -109,7 +109,7 @@ public class Lista_AlumnosServiceImp extends BaseServiceImpl<Lista_AlumnosDTO, L
             alumnoDTO.setDireccion(alumno.getDireccion());
             alumnoDTO.setEmail(alumno.getEmail());
             alumnoDTO.setGenero(alumno.getGenero());
-            alumnoDTO.setId(alumno.getId());
+            alumnoDTO.setId(personasDeLaClaseId.get(i).getId());
             response.add(alumnoDTO);
         }
         return response;

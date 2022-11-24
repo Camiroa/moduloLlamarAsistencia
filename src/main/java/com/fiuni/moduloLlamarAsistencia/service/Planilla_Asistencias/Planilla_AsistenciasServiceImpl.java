@@ -3,14 +3,13 @@ package com.fiuni.moduloLlamarAsistencia.service.Planilla_Asistencias;
 import com.fiuni.moduloLlamarAsistencia.dao.Lista_Materias.ILista_MateriasDao;
 import com.fiuni.moduloLlamarAsistencia.dao.Planilla_Asistencias.IPlanilla_AsistenciasDao;
 import com.fiuni.moduloLlamarAsistencia.dao.materias.IMateriaDao;
-import com.fiuni.moduloLlamarAsistencia.dto.personas.PersonaDTO;
+import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PADTO;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_Asistencia_Materia_DTO;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasDTO;
 import com.fiuni.moduloLlamarAsistencia.dto.planilla.Planilla_AsistenciasResult;
 import com.fiuni.moduloLlamarAsistencia.service.Detalles_PA.IDetalles_PAService;
 import com.fiuni.moduloLlamarAsistencia.service.Lista_Alumnos.ILista_AlumnosService;
 import com.fiuni.moduloLlamarAsistencia.service.base.BaseServiceImpl;
-import com.library.domainLibrary.domain.clase.ClaseDomain;
 import com.library.domainLibrary.domain.persona.PersonaDomain;
 import com.library.domainLibrary.domain.planillaAsistencia.PlanillaAsistenciaDomain;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +35,32 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
     private IMateriaDao materia_dao;
     @Autowired
     private ILista_AlumnosService lista_alumnosService;
+    @Transactional
+    @Override
+    public Boolean updateDetalles( Planilla_AsistenciasDTO dto) {
+        if(dto.getEstado()!=null && dto.getIdListaMateria()!= null){
+            try{
+                Integer response = planilla_asistenciasDao.updateAsistencia(dto.getFecha(), dto.getEstado(), dto.getId());
+                dto.getListaDetalles_PA().forEach(detalle->{
+                    detalles_paService.updateDetalles(detalle);
+                });
+                return true;
+            }catch(Exception e) {
+            System.out.println(e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
+
     @Override
     public ResponseEntity<Planilla_AsistenciasDTO> update(Integer id, Planilla_AsistenciasDTO dto) {
         if(dto.getEstado()!=null && dto.getIdListaMateria()!= null){
             Planilla_AsistenciasDTO response = planilla_asistenciasDao.findById(id).map(domain ->{
                 domain.setEstado(dto.getEstado());
-                domain.setIdListaMateria(dto.getIdListaMateria());
                 domain.setFecha(dto.getFecha());
                 dto.setId(domain.getId());
+                domain.setIdListaMateria(dto.getIdListaMateria());
                 return save(dto);
             }).orElse(null).getBody();
             return response != null?new ResponseEntity<>(HttpStatus.NO_CONTENT): new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -53,7 +70,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
 
     @Override
     public ResponseEntity<Boolean> delete(Integer id) {
-        Boolean response = planilla_asistenciasDao.delete(id);
+        Integer response = planilla_asistenciasDao.delete(id);
         return new ResponseEntity<>(response!= null ? HttpStatus.OK: HttpStatus.NOT_FOUND);
     }
    // @Override
@@ -76,19 +93,31 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
     }
 
     @Override
+    @Transactional
     protected PlanillaAsistenciaDomain convertDtoToDomain(Planilla_AsistenciasDTO dto) {
+        System.out.println(dto.getId());
         PlanillaAsistenciaDomain domain = new PlanillaAsistenciaDomain();
-        domain.setId(dto.getId());
+        //domain.setId(dto.getId());
         domain.setEstado(dto.getEstado());
         domain.setIdListaMateria(dto.getIdListaMateria());
         domain.setFecha(dto.getFecha());
+        System.out.println("Aca primero----------------------------------------------");
+        System.out.println(dto.getListaDetalles_PA().get(0).getId());
         domain.setDetallesPlanillaAsistencias(detalles_paService.convertListToDomain(dto.getListaDetalles_PA()));
         return domain;
     }
 
+
     @Override
+    @Transactional
     public ResponseEntity<Planilla_AsistenciasDTO> save(Planilla_AsistenciasDTO dto) {
+        System.out.println(dto.getId());
         Planilla_AsistenciasDTO response= convertDomainToDto(planilla_asistenciasDao.save(convertDtoToDomain(dto)));
+        List<Detalles_PADTO> nuevosDetalles=response.getListaDetalles_PA();
+        for (Detalles_PADTO detalle: nuevosDetalles) {
+            detalle.setIdPlanillaAsistencia(response.getId());
+            detalles_paService.save(detalle);
+        }
         return response!=null ? new ResponseEntity<>(response,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
@@ -115,8 +144,11 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
         List<Planilla_AsistenciasDTO> listaDTO = new ArrayList();
 
         for (int i = 0; i < listaFechas.size(); i++) {
+
             PlanillaAsistenciaDomain fecha = listaFechas.get(i);
-            listaDTO.add(convertDomainToDto(fecha));
+            if(fecha.getEstado()){
+                listaDTO.add(convertDomainToDto(fecha));
+            }
         }
         response.setIdClase(lista_materias_dao.findById(id).get().getIdClase());
         //response.setAlumnos(lista_alumnosService.getAlumnos(materia_dao.findById(response.getIdClase()).get().getId()));

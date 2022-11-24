@@ -14,7 +14,7 @@ public class Detalles_PADTO extends BaseDTO {
 
     private Integer idListaAlumno;
 
-    private Boolean asistencia;
+    private char asistencia;
 
     private String justificativo;
 
@@ -41,11 +41,11 @@ public class Detalles_PADTO extends BaseDTO {
     }
 
     @XmlElement
-    public Boolean getAsistencia() {
+    public char getAsistencia() {
         return asistencia;
     }
 
-    public void setAsistencia(Boolean asistencia) {
+    public void setAsistencia(char asistencia) {
         this.asistencia = asistencia;
     }
 
