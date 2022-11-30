@@ -35,12 +35,11 @@ public class Detalles_PAResourse {
     public ResponseEntity<Detalles_PADTO> save(@Validated @RequestBody Detalles_PADTO deta) {
         return detalles_paService.save(deta);
     }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Detalles_PADTO> putDetalle(@PathVariable(value = "id") Integer id, @RequestBody Detalles_PADTO dto) {
-//        return null;
-//        //return detalles_paService.update(id, dto);
-//    }
+
+    @PutMapping
+    public Boolean putDetalle( @RequestBody Detalles_PADTO dto) {
+        return detalles_paService.updateDetalles(dto);
+    }
 //
 //    @DeleteMapping("eliminar/{id}")
 //    public ResponseEntity<Boolean> deleteDetalle(@PathVariable(value = "id") Integer id) {

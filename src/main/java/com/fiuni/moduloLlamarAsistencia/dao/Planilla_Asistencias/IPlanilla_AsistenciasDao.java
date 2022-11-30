@@ -9,8 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,9 +27,10 @@ public interface IPlanilla_AsistenciasDao extends CrudRepository<PlanillaAsisten
 
 
     @Modifying//(clearAutomatically = true, flushAutomatically = true)
-    @Transactional
+    @Transactional(propagation= Propagation.SUPPORTS, readOnly = true)
     @Query(value = "UPDATE PlanillaAsistenciaDomain SET fecha = ?1, estado = ?2 WHERE id = ?3")
     public Integer updateAsistencia(LocalDate fecha, Boolean estado, Integer id);
+    //@Transactional(propagation = Propagation.NOT_SUPPORTED)
     public List<PlanillaAsistenciaDomain> findAllByIdListaMateria(Integer idListaMateria);
     //Integer fullDelete(Integer id);
 }

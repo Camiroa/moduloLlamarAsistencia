@@ -1,11 +1,16 @@
 package com.fiuni.moduloLlamarAsistencia;
 
+import com.fiuni.moduloLlamarAsistencia.dto.detalles.Detalles_PADTO;
+import com.fiuni.moduloLlamarAsistencia.service.Detalles_PA.Detalles_PAServiceImp;
+import com.fiuni.moduloLlamarAsistencia.service.Detalles_PA.IDetalles_PAService;
+import com.fiuni.moduloLlamarAsistencia.service.Planilla_Asistencias.Planilla_AsistenciasServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.http.ResponseEntity;
 
 @EntityScan({"com.library.domainLibrary.domain.base",
 		"com.library.domainLibrary.domain.ciclo",
@@ -36,6 +41,18 @@ public class ModuloLlamarAsistenciaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ModuloLlamarAsistenciaApplication.class, args);
+//		IDetalles_PAService impl= new Detalles_PAServiceImp();
+//		Detalles_PADTO detalle= new Detalles_PADTO();
+//		detalle.setId(20);
+//		detalle.setEstado(true);
+//		detalle.setAsistencia('A');
+//		detalle.setIdPlanillaAsistencia(1);
+//		detalle.setJustificativo("");
+//		detalle.setIdListaAlumno(1);
+//		System.out.println(detalle);
+//		System.out.println(detalle.getAsistencia());
+//		ResponseEntity<Detalles_PADTO> resp= impl.save(detalle);
+//		System.out.println(resp);
 	}
 
 }

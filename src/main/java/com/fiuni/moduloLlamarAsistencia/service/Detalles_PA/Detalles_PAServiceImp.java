@@ -11,8 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +54,7 @@ implements IDetalles_PAService{
     }
 
     @Override
-    @Transactional
+    //@Transactional(propagation= Propagation.REQUIRED)
     public ResponseEntity<Detalles_PADTO> save(Detalles_PADTO dto) {
         System.out.println(dto.getId()+"DENTRO DEL SAVE");
         System.out.println(dto.getAsistencia());
@@ -69,7 +70,7 @@ implements IDetalles_PAService{
     }
 
     @Override
-    @Transactional
+    //@Transactional
     //@Cacheable(value = "platform-cache", key="'api_detalle_' + #id")
     public ResponseEntity<Detalles_PADTO> getById(Integer id) {
         Optional<DetallePlanillaAsistenciaDomain> domain = detalles_paDao.findById(id);
@@ -79,11 +80,9 @@ implements IDetalles_PAService{
 
         return response != null ? new ResponseEntity(response, HttpStatus.OK)
                 : new ResponseEntity(HttpStatus.NOT_FOUND);
-
-
     }
 
-    @Transactional
+    //@Transactional
     public ResponseEntity<Detalles_PADTO> getByIdP(Integer id) {
         Optional<DetallePlanillaAsistenciaDomain> domain = detalles_paDao.findById(id);
         Detalles_PADTO response = domain.map(detalle -> {
@@ -96,7 +95,7 @@ implements IDetalles_PAService{
 
     }
     @Override
-    @Transactional
+    //@Transactional
     public ResponseEntity<Detalles_PAResult> getAll(Pageable pageable) {
         Detalles_PAResult response= new Detalles_PAResult(detalles_paDao.findAll(pageable)
                 .map(p -> {Detalles_PADTO dto= convertDomainToDto(p);
@@ -121,7 +120,7 @@ implements IDetalles_PAService{
 //            return false;
 //        }
 //    }
-   @Transactional
+    //@Transactional (propagation= Propagation.REQUIRES_NEW)
     @Override
     public Boolean updateDetalles(Detalles_PADTO dto) {
         try{

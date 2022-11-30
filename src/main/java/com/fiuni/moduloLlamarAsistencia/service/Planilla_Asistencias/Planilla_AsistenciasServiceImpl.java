@@ -17,8 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,8 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
     private IMateriaDao materia_dao;
     @Autowired
     private ILista_AlumnosService lista_alumnosService;
-    @Transactional
+
+    //@Transactional (propagation= Propagation.REQUIRED, readOnly = false)
     @Override
     public Boolean updateDetalles( Planilla_AsistenciasDTO dto) {
         if(dto.getEstado()!=null && dto.getIdListaMateria()!= null){
@@ -52,7 +54,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
         }
         return false;
     }
-
+    //@Transactional(propagation= Propagation.REQUIRED, readOnly = false)
     @Override
     public ResponseEntity<Planilla_AsistenciasDTO> update(Integer id, Planilla_AsistenciasDTO dto) {
         if(dto.getEstado()!=null && dto.getIdListaMateria()!= null){
@@ -79,11 +81,11 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
     //    Integer response = planilla_asistenciasDao.fullDelete(id);
     //    return new ResponseEntity<Integer>(response, response > 0 ? HttpStatus.OK : HttpStatus.METHOD_NOT_ALLOWED);//ResponseEntity.etapaDao.deleteAbsolut(id);
     //}
+
+   // @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     protected Planilla_AsistenciasDTO convertDomainToDto(PlanillaAsistenciaDomain domain) {
         Planilla_AsistenciasDTO dto = new Planilla_AsistenciasDTO();
-        PersonaDomain personaDomain;
-
         dto.setId(domain.getId());
         dto.setEstado(domain.getEstado());
         dto.setIdListaMateria(domain.getIdListaMateria());
@@ -93,7 +95,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
     }
 
     @Override
-    @Transactional
+    //@Transactional
     protected PlanillaAsistenciaDomain convertDtoToDomain(Planilla_AsistenciasDTO dto) {
         System.out.println(dto.getId());
         PlanillaAsistenciaDomain domain = new PlanillaAsistenciaDomain();
@@ -109,7 +111,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
 
 
     @Override
-    @Transactional
+    //@Transactional
     public ResponseEntity<Planilla_AsistenciasDTO> save(Planilla_AsistenciasDTO dto) {
         System.out.println(dto.getId());
         Planilla_AsistenciasDTO response= convertDomainToDto(planilla_asistenciasDao.save(convertDtoToDomain(dto)));
@@ -120,7 +122,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
         }
         return response!=null ? new ResponseEntity<>(response,HttpStatus.CREATED): new ResponseEntity<>(HttpStatus.CONFLICT);
     }
-
+    @Transactional(propagation= Propagation.REQUIRED, readOnly = true)
     @Override
     public ResponseEntity<Planilla_AsistenciasDTO> getById(Integer id) {
         Planilla_AsistenciasDTO response=convertDomainToDto(planilla_asistenciasDao.findById(id).orElse(null));
@@ -128,7 +130,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public ResponseEntity<Planilla_AsistenciasResult> getAll(Pageable pageable) {
         Planilla_AsistenciasResult response = new Planilla_AsistenciasResult(planilla_asistenciasDao.findAll(pageable)
                 .map(p -> {return convertDomainToDto(p);}).toList());
@@ -137,6 +139,7 @@ public class Planilla_AsistenciasServiceImpl extends BaseServiceImpl<Planilla_As
 
 
     }
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
     public ResponseEntity<Planilla_Asistencia_Materia_DTO> getByIdListaMateria(Integer id) {
         Planilla_Asistencia_Materia_DTO response = new Planilla_Asistencia_Materia_DTO();
